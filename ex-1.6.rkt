@@ -16,7 +16,7 @@
   (average guess (/ x guess)))
 
 (define (sqrt-iter guess x)    ;;provides iteration
-  (if (good-enough? guess x)
+  (new-if (good-enough? guess x)
           guess
           (sqrt-iter (improve guess x)
                      x)))
@@ -26,71 +26,70 @@
 
 (sqrt 1)
 
+;;retrieve the body
 #;
 (sqrt x)
 
+;;replace the formal parameter by the argument
+#;
+(sqrt 1)
+
+;;retrieve the body 
 #;
 (sqrt-iter 1.0 x)
 
+;;replace the formal parameter by the argument 
+#;
+(sqrt-iter 1.0 1)
+
+;;retrieve the body
+#;
+(new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x)
+                     x))
+
 #|
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  replace the formal parameters by the arguments.
+  we now have a combination with an operator to be evaulated, two compound operands,
+  and one primitive operand:
 |#
-
-;;combination with two compound operands and one primitive
 #;
-(new-if (good-enough? 1.0 x)
-          1.0
-          (sqrt-iter (improve 1.0 x)  ;;since new-if is a procedure, the predicate,
-                     x))              ;;then-clause, and else-clause, all being 
-#| ᗑ                                  ;;operands in a combination, will have to be
-   |                                  ;;expanded in order to evaulate the combination.
-   ┞——————— expand new-if operator first
+(new-if (good-enough? 1.0 1)         ;;since new-if is a procedure, the predicate,
+          1.0                        ;;then-clause, and else-clause, all being
+          (sqrt-iter (improve 1.0 1) ;;operands in a combination, will have to be
+                     1))             ;;expanded in order to evaulate the combination. 
+
+;;retrieve the body
+#;
+(cond (predicate then-clause)
+        (else else-clause))
+
+#|
+  to replace the formal parameters in the body of new-if, we must evaluate the
+  compound arguments passed to it
 |#
+#;
+(cond (#t 1.0)
+      (else (new-if (good-enough? 1.0 1)
+                    1.0
+                    (sqrt-iter (improve 1.0 1)
+                               1))))
+            ;;retrieve the body   
 
 #;
-(cond ((good-enough? 1.0 x) 1.0)
-      (else (sqrt-iter (improve 1.0 x)
-                     x)))
-#|               ᗑ
-                 ┞——————— expand predicate next
-|#
+(cond (#t 1.0)
+      (else (cond (predicate then-clause)
+                  (else else-clause))))
 
+
+            ;;evaluate the compound arguments
 #;
-(cond (((< (abs (- (square 1.0) x )) 0.001) 1.0 x) 1.0)
-      (else (sqrt-iter (improve 1.0 x)
-                     x)))
+(cond (#t 1.0)
+      (else (cond (#t 1.0)
+                  (else (new-if (good-enough? 1.0 1)
+                                1.0
+                                (sqrt-iter (improve 1.0 1)
+                                           1))))))
 
-#;
-(cond ((good-enough? guess x)       ;;<-predicate
-       guess                        ;;<-then-clause
-       (sqrt-iter (improve guess x) ;;<-else-clause
-                  x)))
-
-#;
-(cond ((good-enough? guess x)         ;;<-predicate
-       guess                          ;;<-then-clause
-       (new-if (good-enough? guess x) ;;<-else-clause
-               guess
-               (sqrt-iter (improve guess x)
-                          x))))
-
-#;
-(cond ((good-enough? guess x)         ;;<-predicate
-       guess                          ;;<-then-clause
-       (new-if (good-enough? guess x) ;;<-else-clause
-               guess
-               (new-if (good-enough? guess x)
-                       guess
-                       (sqrt-iter (improve guess x)
-                                  x)))))
-
-#;
-(cond ((good-enough? guess x)         ;;<-predicate
-       guess                          ;;<-then-clause
-       (new-if (good-enough? guess x) ;;<-else-clause
-               guess
-               (new-if (good-enough? guess x)
-                       guess
-                       (♾️)))))       ;;<-memory leak
-
-
+;;this reduction of expressions never ends, hence the memory leak
