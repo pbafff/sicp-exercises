@@ -24,4 +24,6 @@
 ;;can * fail to square a number such that the produced value is more than 0.001 away from being correct
 ;;if x is big or small enough then maybe, when squared, the resu
 ;;take a number, sqrt it, square it back, take difference from original number, is it off by more than 0.001
+;;start with √x
 
+(< (abs (- (* 0.000005 0.000005) 0.000005)) 0.001)
