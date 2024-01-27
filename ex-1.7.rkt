@@ -5,6 +5,20 @@
 (define (good-enough? guess x)
   (< (abs (- (square guess) x )) 0.001))
 
-#;(good-enough? 1.0 2)
+;;needs to fail to determine that the difference between x and guess^2 is less than 0.001
 
- (- (square 1.0) 0.00000000000000001)
+(- 1 (+ 1000000000000000 1))
+
+(- 1 (+ 1000000000000000 2))
+
+(- 1 (+ 1000000000000000 3))
+
+(< (abs (- 1.0 (+ 1 0.00001))) 0.001)
+
+(- 1.0 (+ 1000000000000000 2))
+
+(- 1.0 (+ 1000000000000000 3))
+
+;;answer does not lie in this difference
+;;perhaps i need to let go of keeping guess at 1.0
+;;can * fail to square a number such that the produced value is more than 0.001 away from being correct
