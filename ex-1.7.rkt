@@ -22,3 +22,6 @@
 ;;answer does not lie in this difference
 ;;perhaps i need to let go of keeping guess at 1.0
 ;;can * fail to square a number such that the produced value is more than 0.001 away from being correct
+;;if x is big or small enough then maybe, when squared, the resu
+;;take a number, sqrt it, square it back, take difference from original number, is it off by more than 0.001
+
