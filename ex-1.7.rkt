@@ -45,8 +45,28 @@
 
 (improve 1054092553.3894598 1111111111111111111)
 ;;returns the same guess. being limited to just 7 decimal places prevents improve from producing a guess that can be squared to get a number close enough to 1111111111111111111. so, we get suck in an infinite loop.
-
+#;
 (sqrt 0.0000000000000000001)
-;;returns 0.03125 which is obviously wrong
+;;returns 0.03125 which is obviously wrong. correct answer is 0.000000000316228
 
 (square 0.03125)
+;;returns 0.0009765625. 0.000000000316228 squared is 0.000000000000000000100000147984
+
+(define (good-enough?2 guess x)
+  (< (/ (abs (- guess x)) guess) 0.001))
+
+(define (sqrt-iter2 guess x)
+  (display "GUESS: ")
+  (display guess)
+  (display " GUESS^2 off by: ")
+  (display (- (square guess) x))
+  (newline)
+  (if (good-enough?2 guess (improve guess x))
+      guess
+      (sqrt-iter2 (improve guess x) x)))
+
+(define (sqrt2 x)
+  (sqrt-iter2 1.0 x))
+
+(sqrt2 1111111111111111111)
+(sqrt2 0.0000000000000000001)
