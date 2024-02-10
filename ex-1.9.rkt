@@ -137,6 +137,7 @@
     9)
 
 9
+recursive
 |#
 
 (define (+. a b)
@@ -215,6 +216,9 @@
             9
             (+. (dec 0) (inc 9))))))))))))
 
+    . . .
+iterative
+
 (define (fact-iter product counter max-count)
   (if (> counter max-count)
     product
@@ -275,4 +279,6 @@
         (fact-iter 6
                    4
                    6)))))
+
+      . . .
 |#
