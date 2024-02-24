@@ -1,5 +1,5 @@
 #lang sicp
-
+(#%require (only racket/base time))
 ;                                                      
 ;                                                      
 ;                                                      
@@ -40,7 +40,7 @@
               (+ counter 1))))
   (iter 1 1))
 
-(pascal 25)
+(time (pascal 25))
 (newline)
 
 ;                                                            
@@ -77,4 +77,4 @@
   (if (>= n 0)
       (pascals-triangle (- n 1))))
 
-(pascals-triangle 25)
+(time (pascals-triangle 25))
