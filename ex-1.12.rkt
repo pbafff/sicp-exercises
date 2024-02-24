@@ -40,7 +40,8 @@
               (+ counter 1))))
   (iter 1 1))
 
-(pascal 100)
+(pascal 25)
+(newline)
 
 ;                                                            
 ;                                                            
@@ -69,10 +70,11 @@
     (if (and (>= k 0) (<= k n))
         (begin
           (display (binomial-co n k))
+          (display " ")
           (loop (+ k 1)))))
   (loop 0)
   (newline)
   (if (>= n 0)
       (pascals-triangle (- n 1))))
 
-(pascals-triangle 100)
+(pascals-triangle 25)
